@@ -45,21 +45,6 @@ resource "aws_iam_policy" "terraform_apply_access" {
         Action = [
           "iam:*"
         ]
-        Resource = concat([
-          aws_iam_openid_connect_provider.github_actions.arn,
-          aws_iam_role.terraform_apply.arn,
-          aws_iam_role.terraform_pull_request.arn,
-          "arn:aws:iam::*:policy/TerraformStateReadAccess",
-          "arn:aws:iam::*:policy/TerraformStateWriteAccess"
-          ],
-          aws_iam_role.terraform_apply_assume[*].arn,
-        aws_iam_role.terraform_pull_request_assume[*].arn)
-      },
-      {
-        Effect = "Allow"
-        Action = [
-          "organizations:DescribeOrganization"
-        ]
         Resource = "*"
       }
     ]

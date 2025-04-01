@@ -15,10 +15,9 @@ resource "aws_iam_role" "terraform_apply_assume" {
 }
 
 resource "aws_iam_role_policy_attachment" "terraform_apply_assume_access" {
-  count = length(var.apply_role_arns) > 0 ? length(var.apply_policy_arns) : 0
-
+  count      = length(var.apply_role_arns) > 0 ? 1 : 0
   role       = aws_iam_role.terraform_apply_assume[0].name
-  policy_arn = var.apply_policy_arns[count.index]
+  policy_arn = aws_iam_policy.terraform_apply_access.arn
 }
 
 resource "aws_iam_role_policy_attachment" "terraform_apply_assume_policies" {
