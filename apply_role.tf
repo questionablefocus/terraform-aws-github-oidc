@@ -43,15 +43,7 @@ resource "aws_iam_policy" "terraform_apply_access" {
       {
         Effect = "Allow"
         Action = [
-          "iam:GetPolicy",
-          "iam:GetPolicyVersion",
-          "iam:ListPolicyVersions",
-          "iam:ListAttachedRolePolicies",
-          "iam:ListRolePolicies",
-          "iam:GetRole",
-          "iam:GetRolePolicy",
-          "iam:ListRoleTags",
-          "iam:GetOpenIDConnectProvider"
+          "iam:*"
         ]
         Resource = concat([
           aws_iam_openid_connect_provider.github_actions.arn,
