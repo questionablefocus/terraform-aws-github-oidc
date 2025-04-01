@@ -53,29 +53,8 @@ resource "aws_iam_policy" "terraform_read_access" {
       {
         Effect = "Allow"
         Action = [
-          "iam:GetPolicy",
-          "iam:GetPolicyVersion",
-          "iam:ListPolicyVersions",
-          "iam:ListAttachedRolePolicies",
-          "iam:ListRolePolicies",
-          "iam:GetRole",
-          "iam:GetRolePolicy",
-          "iam:ListRoleTags",
-          "iam:GetOpenIDConnectProvider"
-        ]
-        Resource = concat([
-          aws_iam_openid_connect_provider.github_actions.arn,
-          aws_iam_role.terraform_apply.arn,
-          aws_iam_role.terraform_pull_request.arn,
-          "arn:aws:iam::*:policy/TerraformStateReadAccess",
-          "arn:aws:iam::*:policy/TerraformStateWriteAccess"
-          ],
-          aws_iam_role.terraform_apply_assume[*].arn,
-        aws_iam_role.terraform_pull_request_assume[*].arn)
-      },
-      {
-        Effect = "Allow"
-        Action = [
+          "iam:Get*",
+          "iam:List*",
           "organizations:DescribeOrganization"
         ]
         Resource = "*"
