@@ -43,7 +43,8 @@ resource "aws_iam_policy" "terraform_apply_access" {
       {
         Effect = "Allow"
         Action = [
-          "iam:*"
+          "iam:*",
+          "organizations:DescribeOrganization"
         ]
         Resource = "*"
       }
