@@ -9,6 +9,13 @@ resource "aws_iam_role" "terraform_pull_request_assume" {
       {
         Effect = "Allow"
         Principal = {
+          AWS = var.pull_request_role_arns
+        }
+        Action = "sts:AssumeRole"
+      },
+      {
+        Effect = "Allow"
+        Principal = {
           AWS = "*"
         }
         Action = "sts:AssumeRole"
