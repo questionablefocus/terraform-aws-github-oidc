@@ -1,21 +1,21 @@
-output "apply_role_arn" {
-  description = "ARN of the Terraform apply IAM role"
-  value       = aws_iam_role.terraform_apply.arn
+output "read_write_role_arn" {
+  description = "ARN of the Terraform read write IAM role"
+  value       = aws_iam_role.terraform_read_write.arn
 }
 
-output "apply_role_name" {
-  description = "Name of the Terraform apply IAM role"
-  value       = aws_iam_role.terraform_apply.name
+output "read_write_role_name" {
+  description = "Name of the Terraform read write IAM role"
+  value       = aws_iam_role.terraform_read_write.name
 }
 
-output "pull_request_role_arn" {
-  description = "ARN of the Terraform pull request IAM role"
-  value       = aws_iam_role.terraform_pull_request.arn
+output "read_only_role_arn" {
+  description = "ARN of the Terraform read only IAM role"
+  value       = aws_iam_role.terraform_read_only.arn
 }
 
-output "pull_request_role_name" {
-  description = "Name of the Terraform pull request IAM role"
-  value       = aws_iam_role.terraform_pull_request.name
+output "read_only_role_name" {
+  description = "Name of the Terraform read only IAM role"
+  value       = aws_iam_role.terraform_read_only.name
 }
 
 output "oidc_provider_arn" {

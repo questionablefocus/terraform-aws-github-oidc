@@ -8,26 +8,43 @@ variable "s3_bucket_arn" {
   type        = string
 }
 
-variable "apply_policy_arns" {
-  description = "List of IAM policy ARNs to attach to the apply role"
+variable "backend_key" {
+  description = "Key for the Terraform backend"
+  type        = string
+}
+
+variable "read_write_policy_arns" {
+  description = "List of IAM policy ARNs to attach to the read write role"
   type        = list(string)
   default     = []
 }
 
-variable "pull_request_policy_arns" {
-  description = "List of IAM policy ARNs to attach to the pull request role"
+variable "read_only_policy_arns" {
+  description = "List of IAM policy ARNs to attach to the read only role"
   type        = list(string)
   default     = []
 }
 
-variable "apply_role_arns" {
-  description = "List of role ARNs that can be assumed by the apply role"
+variable "read_write_role_arns" {
+  description = "List of role ARNs that can be assumed by the read write role"
   type        = list(string)
   default     = []
 }
 
-variable "pull_request_role_arns" {
-  description = "List of role ARNs that can be assumed by the pull request role"
+variable "read_only_role_arns" {
+  description = "List of role ARNs that can be assumed by the read only role"
+  type        = list(string)
+  default     = []
+}
+
+variable "read_write_policy_documents" {
+  description = "List of IAM policy documents to attach to the read write role"
+  type        = list(string)
+  default     = []
+}
+
+variable "read_only_policy_documents" {
+  description = "List of IAM policy documents to attach to the read only role"
   type        = list(string)
   default     = []
 }
