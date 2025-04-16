@@ -49,7 +49,7 @@ data "aws_iam_policy_document" "read_only" {
       "s3:PutObject",
     ]
     resources = [
-      "${var.s3_bucket_arn}/${var.backend_key}.tflock"
+      "${var.s3_bucket_arn}/*.tfstate.tflock"
     ]
   }
 
