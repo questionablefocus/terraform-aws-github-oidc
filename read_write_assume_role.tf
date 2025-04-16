@@ -1,17 +1,21 @@
+data "aws_iam_policy_document" "read_write_assume_role" {
+  statement {
+    sid     = "AllowAssumeRoleFromGitHubActions"
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "AWS"
+      identifiers = var.read_write_role_arns
+    }
+  }
+}
+
 resource "aws_iam_role" "read_write_assume_role" {
   count = length(var.read_write_role_arns) > 0 ? 1 : 0
   name  = "TerraformReadWriteAssume"
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect = "Allow"
-      Principal = {
-        AWS = var.read_write_role_arns
-      }
-      Action = "sts:AssumeRole"
-    }]
-  })
+  assume_role_policy = data.aws_iam_policy_document.read_write_assume_role.json
 }
 
 resource "aws_iam_role_policy_attachment" "read_write_assume_access" {

@@ -1,36 +1,41 @@
+data "aws_iam_policy_document" "read_only_assume_role" {
+  dynamic "statement" {
+    for_each = length(var.read_only_role_arns) > 0 ? [1] : []
+
+    content {
+      sid     = "AllowAssumeRoleFromGitHubActions"
+      effect  = "Allow"
+      actions = ["sts:AssumeRole"]
+
+      principals {
+        type        = "AWS"
+        identifiers = var.read_only_role_arns
+      }
+    }
+  }
+
+  statement {
+    sid     = "AllowAssumeRoleFromOrganization"
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:PrincipalOrgID"
+      values   = [data.aws_organizations_organization.current.id]
+    }
+  }
+}
+
 resource "aws_iam_role" "read_only_assume_role" {
   name = "TerraformReadOnlyAssume"
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = concat(
-      length(var.read_only_role_arns) > 0 ? [
-        {
-          Sid    = "AllowAssumeRoleFromGitHubActions"
-          Effect = "Allow"
-          Principal = {
-            AWS = var.read_only_role_arns
-          }
-          Action = "sts:AssumeRole"
-        }
-      ] : [],
-      [
-        {
-          Sid    = "AllowAssumeRoleFromOrganization"
-          Effect = "Allow"
-          Principal = {
-            AWS = "*"
-          }
-          Action = "sts:AssumeRole"
-          Condition = {
-            StringEquals = {
-              "aws:PrincipalOrgID" : data.aws_organizations_organization.current.id
-            }
-          }
-        }
-      ]
-    )
-  })
+  assume_role_policy = data.aws_iam_policy_document.read_only_assume_role.json
 }
 
 resource "aws_iam_role_policy_attachment" "read_only_assume_access" {
