@@ -31,16 +31,16 @@ resource "aws_iam_role_policy_attachment" "read_write_assume_policies" {
   policy_arn = var.read_write_policy_arns[count.index]
 }
 
-resource "aws_iam_policy" "read_write_additional" {
+resource "aws_iam_policy" "read_write_assume_additional" {
   count = length(var.read_write_role_arns) > 0 ? length(var.read_write_policy_documents) : 0
 
   name   = "TerraformReadWriteAssumeAdditional-${count.index}"
   policy = var.read_write_policy_documents[count.index]
 }
 
-resource "aws_iam_role_policy_attachment" "read_write_additional_documents" {
+resource "aws_iam_role_policy_attachment" "read_write_assume_additional_documents" {
   count = length(var.read_write_role_arns) > 0 ? length(var.read_write_policy_documents) : 0
 
   role       = aws_iam_role.read_write_assume_role[0].name
-  policy_arn = aws_iam_policy.read_write_additional[count.index].arn
+  policy_arn = aws_iam_policy.read_write_assume_additional[count.index].arn
 }
