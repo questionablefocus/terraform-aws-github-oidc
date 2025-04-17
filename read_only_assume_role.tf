@@ -67,7 +67,7 @@ resource "aws_iam_role_policy_attachment" "read_only_assume_additional_documents
 }
 
 // Allow var.allow_read_only_assume_role_arns to assume the read only role
-data "aws_iam_policy_document" "read_only_assume_role" {
+data "aws_iam_policy_document" "allow_read_only_assume_role" {
   statement {
     effect    = "Allow"
     actions   = ["sts:AssumeRole"]
@@ -78,10 +78,10 @@ data "aws_iam_policy_document" "read_only_assume_role" {
 resource "aws_iam_policy" "allow_read_only_assume_role" {
   name = "AllowReadOnlyAssumeRole"
 
-  policy = data.aws_iam_policy_document.read_only_assume_role.json
+  policy = data.aws_iam_policy_document.allow_read_only_assume_role.json
 }
 
-resource "aws_iam_role_policy_attachment" "read_only_assume_access" {
+resource "aws_iam_role_policy_attachment" "allow_read_only_assume_access" {
   role       = aws_iam_role.read_only_assume_role.name
   policy_arn = aws_iam_policy.allow_read_only_assume_role.arn
 }
