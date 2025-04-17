@@ -48,3 +48,15 @@ variable "read_only_policy_documents" {
   type        = list(string)
   default     = []
 }
+
+variable "allow_read_only_assume_role_arns" {
+  description = "List of role ARNs which the read only role can assume"
+  type        = list(string)
+  default     = []
+}
+
+variable "allow_read_write_assume_role_arns" {
+  description = "List of role ARNs which the read write role can assume"
+  type        = list(string)
+  default     = []
+}
