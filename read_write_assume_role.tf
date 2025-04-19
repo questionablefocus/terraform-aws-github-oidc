@@ -1,12 +1,16 @@
 data "aws_iam_policy_document" "read_write_assume_role" {
-  statement {
-    sid     = "AllowAssumeRoleFromGitHubActions"
-    effect  = "Allow"
-    actions = ["sts:AssumeRole"]
+  dynamic "statement" {
+    for_each = length(var.read_write_role_arns) > 0 ? [1] : []
 
-    principals {
-      type        = "AWS"
-      identifiers = var.read_write_role_arns
+    content {
+      sid     = "AllowAssumeRoleFromGitHubActions"
+      effect  = "Allow"
+      actions = ["sts:AssumeRole"]
+
+      principals {
+        type        = "AWS"
+        identifiers = var.read_write_role_arns
+      }
     }
   }
 }
