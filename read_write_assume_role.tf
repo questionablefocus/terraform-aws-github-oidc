@@ -51,6 +51,8 @@ resource "aws_iam_role_policy_attachment" "read_write_assume_additional_document
 
 // Allow var.allow_read_write_assume_role_arns to assume the read write role
 data "aws_iam_policy_document" "allow_read_write_assume_role" {
+  count = length(var.allow_read_write_assume_role_arns) > 0 ? 1 : 0
+
   statement {
     effect    = "Allow"
     actions   = ["sts:AssumeRole"]
@@ -59,15 +61,15 @@ data "aws_iam_policy_document" "allow_read_write_assume_role" {
 }
 
 resource "aws_iam_policy" "allow_read_write_assume_role" {
-  count = length(var.read_write_role_arns) > 0 ? 1 : 0
+  count = length(var.read_write_role_arns) > 0 && length(var.allow_read_write_assume_role_arns) > 0 ? 1 : 0
 
   name = "AllowReadWriteAssumeRole"
 
-  policy = data.aws_iam_policy_document.allow_read_write_assume_role.json
+  policy = data.aws_iam_policy_document.allow_read_write_assume_role[0].json
 }
 
 resource "aws_iam_role_policy_attachment" "allow_read_write_assume_access" {
-  count = length(var.read_write_role_arns) > 0 ? 1 : 0
+  count = length(var.read_write_role_arns) > 0 && length(var.allow_read_write_assume_role_arns) > 0 ? 1 : 0
 
   role       = aws_iam_role.read_write_assume_role[0].name
   policy_arn = aws_iam_policy.allow_read_write_assume_role[0].arn
