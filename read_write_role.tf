@@ -23,7 +23,10 @@ data "aws_iam_policy_document" "read_write_github_oidc" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:${var.repository}:ref:refs/heads/main"]
+      values = concat(
+        ["repo:${var.repository}:ref:refs/heads/main"],
+        [for repo in var.secondary_repositories : "repo:${repo}:ref:refs/heads/main"]
+      )
     }
   }
 }

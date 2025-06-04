@@ -23,7 +23,10 @@ data "aws_iam_policy_document" "read_only_github_oidc" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:${var.repository}:pull_request"]
+      values = concat(
+        ["repo:${var.repository}:pull_request"],
+        [for repo in var.secondary_repositories : "repo:${repo}:pull_request"]
+      )
     }
   }
 }

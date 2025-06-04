@@ -3,6 +3,12 @@ variable "repository" {
   type        = string
 }
 
+variable "secondary_repositories" {
+  description = "List of additional GitHub repositories in format owner/repo that should have access"
+  type        = list(string)
+  default     = []
+}
+
 variable "s3_bucket_arn" {
   description = "ARN of the S3 bucket for Terraform state"
   type        = string
