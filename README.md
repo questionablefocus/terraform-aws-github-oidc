@@ -23,7 +23,7 @@ Here we present a couple of examples:
 ```hcl
 module "github_oidc" {
   source  = "app.terraform.io/questionable-focus/github-oidc/aws"
-  version = "1.2.0"
+  version = "1.3.0"
 
   repository    = "some-github-repository-name"
   s3_bucket_arn = "arn:aws:s3:::<some-bucket-name>"
@@ -45,7 +45,7 @@ In the AWS account which stores the Terraform states, specify the relevant role 
 ```hcl
 module "github_oidc" {
   source  = "app.terraform.io/questionable-focus/github-oidc/aws"
-  version = "1.2.0"
+  version = "1.3.0"
 
   repository    = "some-github-repository-name"
   s3_bucket_arn = "arn:aws:s3:::<some-bucket-name>"
@@ -64,7 +64,7 @@ Then in other AWS accounts specify the Terraform AWS account ARNs:
 ```hcl
 module "github_oidc" {
   source  = "app.terraform.io/questionable-focus/github-oidc/aws"
-  version = "1.2.0"
+  version = "1.3.0"
 
   repository    = "some-github-repository-name"
   s3_bucket_arn = "arn:aws:s3:::<some-bucket-name>"
@@ -79,6 +79,10 @@ module "github_oidc" {
 ```
 
 This provides explicit granting of `assume-role` permissions in code. Used together with Pull Requests and Reviews, we can have a pragmatic approach to a self-serving change management process.
+
+### Grant other repositories access
+
+If you would like other repositories to be allowed to use these IAM roles, use the `secondary_repositories` variable. The format should be the same as the primary `repository` variable.
 
 ## Versioning
 
